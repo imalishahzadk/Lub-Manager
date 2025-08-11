@@ -77,26 +77,32 @@ export default function VehiclesList() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <h1 className="text-xl font-semibold text-textmain">Vehicles</h1>
-        <div className="flex gap-2 sm:ml-auto">
-          <div className="relative">
-            <MdSearch className="absolute left-2 top-1/2 -translate-y-1/2 opacity-60" />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search plate, owner, phone, make, model..."
-              className="pl-8 pr-3 py-2 w-72 max-w-full rounded border border-bordercol bg-background outline-none focus:ring-2 focus:ring-accent"
-            />
-          </div>
-          <Link
-            to="/customers/vehicles/new"
-            className="inline-flex items-center gap-2 px-3 py-2 rounded bg-accent text-white hover:opacity-90"
-          >
-            <MdAdd /> Add Vehicle
-          </Link>
-        </div>
-      </div>
+{/* Header */}
+<div className="flex flex-col sm:flex-row sm:items-center gap-3">
+  <h1 className="text-xl font-semibold text-textmain">Vehicles</h1>
+
+  {/* Actions */}
+  <div className="flex w-full sm:w-auto sm:ml-auto flex-col sm:flex-row gap-2">
+    <div className="relative w-full sm:w-72">
+      <MdSearch className="absolute left-2 top-1/2 -translate-y-1/2 opacity-60" />
+      <input
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder="Search plate, owner, phone, make, model..."
+        className="pl-8 pr-3 py-2 w-full rounded border border-bordercol bg-background outline-none focus:ring-2 focus:ring-accent"
+      />
+    </div>
+
+    {/* On mobile: full-width under search; on desktop: same inline button */}
+    <Link
+      to="/customers/vehicles/new"
+      className="inline-flex items-center gap-2 px-3 py-2 rounded bg-accent text-white hover:opacity-90 w-full justify-center sm:w-auto"
+    >
+      <MdAdd /> Add Vehicle
+    </Link>
+  </div>
+</div>
+
 
       {/* Table */}
       <div className="bg-surface border border-bordercol rounded-lg overflow-hidden">
@@ -131,23 +137,27 @@ export default function VehiclesList() {
                   <Td className="text-right">{r.lastOdo ? `${r.lastOdo.toLocaleString()} km` : "—"}</Td>
                   <Td>{r.lastServiceDate || "—"}</Td>
                   <Td>
-                    <div className="flex items-center gap-2">
-                      <Link
-                        to={`/customers/vehicles/${encodeURIComponent(r.plate)}`}
-                        className="px-2 py-1 rounded border border-bordercol hover:bg-background inline-flex items-center gap-1"
-                        title="View details"
-                      >
-                        <MdOpenInNew /> View
-                      </Link>
-                      <button
-                        onClick={() => nav(`/sales/new?plate=${encodeURIComponent(r.plate)}`)}
-                        className="px-2 py-1 rounded border border-bordercol hover:bg-background"
-                        title="Start sale (POS)"
-                      >
-                        POS
-                      </button>
-                    </div>
-                  </Td>
+  <div className="flex items-center gap-2">
+    {/* View Button */}
+    <Link
+      to={`/customers/vehicles/${encodeURIComponent(r.plate)}`}
+      className="inline-flex items-center gap-1 px-2 py-1 text-sm rounded border border-bordercol text-textmain hover:bg-background transition-colors"
+      title="View details"
+    >
+      <MdOpenInNew size={14} /> View
+    </Link>
+
+    {/* POS Button */}
+    <button
+      onClick={() => nav(`/sales/new?plate=${encodeURIComponent(r.plate)}`)}
+      className="inline-flex items-center gap-1 px-2 py-1 text-sm rounded bg-accent text-white hover:opacity-90 transition-opacity"
+      title="Start sale (POS)"
+    >
+      <MdAdd size={14} /> POS
+    </button>
+  </div>
+</Td>
+
                 </tr>
               ))}
             </tbody>
